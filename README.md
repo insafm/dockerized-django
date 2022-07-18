@@ -1,4 +1,5 @@
 ### Directory Structure
+----
 
 ```
 ├── env
@@ -34,7 +35,9 @@
 
 ```
 
-### Terminology:
+### Terminology
+----
+
 - Dockerfile: A set of commands to build an image to be run as a container.
 - Docker-Compose: A file defining how to run a multi-container Docker application.
 
