@@ -1,0 +1,3 @@
+POSTGRES_DB=DockerizedDjango
+POSTGRES_USER=DockerizedDjangoUser
+POSTGRES_PASSWORD=DockerizedDjangoPassword

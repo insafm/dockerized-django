@@ -1,0 +1,13 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+db.sqlite3
+db.sqlite3-journal
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# Environments
+# .env
+# .venv
+# env/
