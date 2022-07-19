@@ -38,8 +38,11 @@
 ### Terminology
 ----
 
+- Docker: A containerization technology that provides a simple, reliable, and secure way to run software.
 - Dockerfile: A set of commands to build an image to be run as a container.
 - Docker-Compose: A file defining how to run a multi-container Docker application.
+- Docker-Machine: A tool for managing Docker containers.
+- Docker-Registry: A Docker registry that stores images and allows you to share them with others.
 
 ### Run Docker Compose To Run The Application
 ----

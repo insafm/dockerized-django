@@ -28,6 +28,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# TODO: Settings.py variables to be configured in .env file.
 
 # Application definition
 
@@ -128,3 +129,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# TODO: Django logging configuration with rotating file handler.
+# TODO: Django automatic exception logging with rotating file handler.
+# TODO: Change home page to a custom dockerized django template.
