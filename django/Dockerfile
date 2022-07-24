@@ -29,5 +29,5 @@ RUN pip install -r requirements.txt
 COPY . /app/
 
 # Copy entrypoint.sh to the container and execute it.
-COPY ./entrypoint_dev.sh /
-ENTRYPOINT ["sh", "/entrypoint_dev.sh"]
+COPY ./entrypoint_development.sh /
+ENTRYPOINT ["sh", "/entrypoint_development.sh"]
