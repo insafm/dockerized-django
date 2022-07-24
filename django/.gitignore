@@ -7,6 +7,9 @@ db.sqlite3-journal
 celerybeat-schedule
 celerybeat.pid
 
+# Log files
+django/logs/
+
 # Environments
 # .env
 # .venv

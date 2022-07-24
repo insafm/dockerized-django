@@ -1,8 +1,12 @@
 # Official python runtime based on Debian - https://hub.docker.com/_/python
 FROM python:3.10.5-slim-buster
 
-# Expose the Django application to serve HTTP requests.
-EXPOSE 8000
+# Create the non-root user. This user will be used to run the Django
+# application. Doing this before any COPY means it won't
+# be repeated on rebuild, for marginal savings in space and rebuild time.
+# The user can have any name and any uid; it does not need to match any
+# particular host system where the image might run.
+RUN useradd -M -s /bin/bash dockerizeddjangouser
 
 # Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -30,4 +34,15 @@ COPY . /app/
 
 # Copy entrypoint.sh to the container and execute it.
 COPY ./entrypoint_development.sh /
+
+# Expose the Django application to serve HTTP requests.
+EXPOSE 8000
+
+# Change sorce code ownership to the non-root user.
+RUN chown -R dockerizeddjangouser:dockerizeddjangouser /app
+
+# Change the user to the non-root user.
+USER dockerizeddjangouser
+
+# Run the Django application.
 ENTRYPOINT ["sh", "/entrypoint_development.sh"]
