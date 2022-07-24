@@ -121,7 +121,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ENABLE_LOGGING = env.bool('ENABLE_LOGGING', default=True)
 if ENABLE_LOGGING:
     
-    LOGGING_DIR = env.str('LOGGING_DIR', default=os.path.join(BASE_DIR, 'logs'))
+    LOGGING_DIR = os.path.join(BASE_DIR, env.str('LOGGING_DIR', default='logs'))
     if not os.path.exists(LOGGING_DIR):
         os.makedirs(LOGGING_DIR)
 
