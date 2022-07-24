@@ -10,11 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-from pathlib import Path
+import os
 from .env import env
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Set project directory and base directory.
+PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 APPLICATION_NAME = env.str("APPLICATION_NAME", default="Dockerized Django")
 
@@ -114,6 +115,58 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# TODO: Django logging configuration with rotating file handler.
+# Django logging configuration with rotating file handler.
+# https://docs.djangoproject.com/en/3.2/topics/logging/
+
+ENABLE_LOGGING = env.bool('ENABLE_LOGGING', default=True)
+if ENABLE_LOGGING:
+    
+    LOGGING_DIR = env.str('LOGGING_DIR', default=os.path.join(BASE_DIR, 'logs'))
+    if not os.path.exists(LOGGING_DIR):
+        os.makedirs(LOGGING_DIR)
+
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'standard': {
+                'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+                'datefmt': "%d/%b/%Y %H:%M:%S"
+            },
+        },
+        'handlers': {
+            'logfile': {
+                'level': 'DEBUG',
+                'class': 'logging.handlers.TimedRotatingFileHandler',
+                'filename': os.path.join(LOGGING_DIR, 'django.log'),
+                'when': 'D',  # this specifies the interval
+                'interval': 1,  # defaults to 1, only necessary for other values
+                'backupCount': 30,  # how many backup file to keep, 30 days
+                'formatter': 'standard',
+            },
+            'console': {
+                'level': 'INFO',
+                'class': 'logging.StreamHandler',
+                'formatter': 'standard'
+            },
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'propagate': True,
+                'level': 'WARN',
+            },
+            'django.db.backends': {
+                'handlers': ['console'],
+                'level': 'DEBUG',
+                'propagate': False,
+            },
+            APPLICATION_NAME: {
+                'handlers': ['console', 'logfile'],
+                'level': 'DEBUG',
+            },
+        }
+    }
+
 # TODO: Django automatic exception logging with rotating file handler.
 # TODO: Change home page to a custom dockerized django template.
