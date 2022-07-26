@@ -1,5 +1,15 @@
 ![screenshot](https://github.com/insafm/dockerized-django/blob/main/SCREENSHOT.png?raw=true)
 
+### Why Dockerized Django?
+----
+
+0. Preconfigured with Docker.
+1. Environment Variables: environ package is used to set environment variables and you can set environment variables in .env file.
+2. Settings Module: Used different settings file for development and production with a base settings file.
+3. Settings Variables: Moved commonly used variables to .env file.
+4. Django Logging: Django logging with rotated file handler.
+5. Auto Exception Logging: Auto exception logging using rotating file handler.
+
 ### Terminology
 ----
 
@@ -28,15 +38,6 @@
 
 - ``` docker exec -t PostgreSQL pg_dumpall -c -U DockerizedDjangoUser > dump/dump_latest.sql ```  - Backup
 - ``` cat dump/dump_latest.sql | docker exec -i PostgreSQL psql -U DockerizedDjangoUser ``` - Restore
-
-### Additional Features Than Stand-Alone Django
-----
-0. Preconfigured with a Docker.
-1. Environment Variables: environ package is used to set environment variables and you can set environment variables in .env file.
-2. Settings Module: Used different settings file for development and production with a base settings file.
-3. Settings Variables: Moved commonly used variables to .env file.
-4. Django Logging: Django logging with rotated file handler.
-5. Auto Exception Logging: Auto exception logging using rotating file handler.
 
 ### Upcoming Features
 ----
