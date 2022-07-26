@@ -8,7 +8,6 @@ celerybeat-schedule
 celerybeat.pid
 
 # Log files
-django/logs/
 django/logs/*.log
 
 # Environments

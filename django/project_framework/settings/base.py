@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -168,5 +169,9 @@ if ENABLE_LOGGING:
         }
     }
 
-# TODO: Django automatic exception logging with rotating file handler.
+    # Enable automatic logging of Django exceptions
+    ENABLE_AUTO_LOGGING = env.bool('ENABLE_AUTO_LOGGING', default=True)
+    if ENABLE_AUTO_LOGGING:
+        MIDDLEWARE += ['core.middleware.ExceptionAutoLoggingMiddleware']
+
 # TODO: Change home page to a custom dockerized django template.
