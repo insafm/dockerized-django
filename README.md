@@ -1,4 +1,4 @@
-[image]: https://github.com/insafm/dockerized-django/SCREENSHOT.png
+[image]: https://github.com/insafm/dockerized-django/blob/main/SCREENSHOT.png
 
 ### Terminology
 ----
