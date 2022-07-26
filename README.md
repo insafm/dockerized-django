@@ -23,13 +23,13 @@
 - ``` docker-compose down --remove-orphans ``` - Stop all containers and delete all volumes associated with them.
 - ``` docker network create supernet ``` - Create network 'supernet' if it doesn't exists.
 
-### Backup & Restore database
+### Backup & Restore Database
 ----
 
 - ``` docker exec -t PostgreSQL pg_dumpall -c -U DockerizedDjangoUser > dump/dump_latest.sql ```  - Backup
 - ``` cat dump/dump_latest.sql | docker exec -i PostgreSQL psql -U DockerizedDjangoUser ``` - Restore
 
-### Extra Features Than Stand Alone Django
+### Additional Features Than Stand-Alone Django
 ----
 0. Preconfigured with a Docker.
 1. Environment Variables: environ package is used to set environment variables and you can set environment variables in .env file.
