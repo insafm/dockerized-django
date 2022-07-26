@@ -13,9 +13,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
 from django.urls import path
+from django.views.generic import TemplateView
+from django import get_version
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
+
+if settings.DEBUG:
+    # Docorized django homepage - You can delete this line if you don't want to use it.
+    urlpatterns += [
+        path('', TemplateView.as_view(template_name="dockerized_django_home.html"), name='dockerized_django_home', kwargs={'version': get_version()[:-3]}),
+    ]

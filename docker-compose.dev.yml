@@ -43,6 +43,7 @@ services:
         volumes:
             - ./django:/app
             - ./django/static:/app/static
+            - ./django/media:/app/media
             - static-files:/static
         ports:
             - 8000:8000
