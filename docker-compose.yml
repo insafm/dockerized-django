@@ -19,7 +19,6 @@ services:
     adminer:
         container_name: Adminer
         image: adminer
-        restart: always
         environment:
             - ADMINER_DESIGN=pappu687
         depends_on:
@@ -30,10 +29,10 @@ services:
             - adminer:/adminer
         ports:
             - 8080:8080
+        restart: on-failure
 
     # Web - Django
     django:
-        restart: always
         container_name: Django
         build:
             context: ./django/
@@ -42,15 +41,30 @@ services:
             - postgres
         volumes:
             - ./django:/app
-            - ./django/static:/app/static
-            - ./django/media:/app/media
-            - static-files:/static
         ports:
             - 8000:8000
         env_file:
             - ./env/.env
         networks:
             - dockerized_django_net
+        restart: always
+    
+    # nginx
+    nginx:
+        container_name: nginx
+        build: 
+            context: ./nginx/
+        depends_on:
+            - django
+        networks:
+            - dockerized_django_net
+        ports:
+            - "80:80"
+        volumes:
+            - ./django/static:/www/static
+        links:
+            - django:django
+        restart: always
 
 volumes:
     static-files:

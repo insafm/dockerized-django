@@ -32,9 +32,6 @@ RUN pip install -r requirements.txt
 # Copy the Django application to the container
 COPY . /app/
 
-# Copy entrypoint.sh to the container and execute it.
-COPY ./entrypoint_development.sh /
-
 # Expose the Django application to serve HTTP requests.
 EXPOSE 8000
 
@@ -44,5 +41,8 @@ RUN chown -R dockerizeddjangouser:dockerizeddjangouser /app
 # Change the user to the non-root user.
 USER dockerizeddjangouser
 
+# Copy entrypoint.sh to the container and execute it.
+COPY ./entrypoint.sh /
+
 # Run the Django application.
-ENTRYPOINT ["sh", "/entrypoint_development.sh"]
+ENTRYPOINT ["sh", "/entrypoint.sh"]
