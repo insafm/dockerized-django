@@ -14,16 +14,16 @@
 ### Django Environment Variables
 ----
 
-- ``` APPLICATION_NAME: The name of the application. Default: 'Dockerized Django' ```
-- ``` DEBUG: Debug mode. If on, will display details of error pages. If your app raises an exception when DEBUG is on, will display a detailed traceback, including a lot of metadata about the environment, such as all the currently defined Django settings (from base.py). Never deploy a site into production with DEBUG turned on. Default: 'on' ```
-- ``` DJANGO_SETTINGS_MODULE: The Django settings module to use. Default: 'project_framework.settings.development' ```
-- ``` SECRET_KEY: The secret key to use for cryptographic operations should be set to a unique, unpredictable value. Never deploy a site into production with the default secret key. Default: '<random string>' ```
-- ``` DATABASE_URL: The URL of the database to use. You can choose from a variety of database engines. Default: 'psql://DockerizedDjangoUser:DockerizedDjangoPassword@postgres:5432/DockerizedDjango' ```
-- ``` ALLOWED_HOSTS: The comma seperated hostnames that Django will use to access the site. Default: '127.0.0.1,localhost,127.0.0.1:8000,localhost:8000' ```
-- ``` TIME_ZONE: The timezone to use for the site. Default: 'UTC' ```
-- ``` ENABLE_LOGGING: If on, will enable exception logging in rotated file handler. Default: 'on' ```
-- ``` ENABLE_AUTO_LOGGING: If on, will enable auto exception logging in rotated file handler. Default: 'on' ```
-- ``` LOGGING_DIR: The directory to use for exception logging. Default: 'logs' ```
+- ``` APPLICATION_NAME```: The name of the application. Default: 'Dockerized Django'
+- ``` DEBUG```: Debug mode. If on, will display details of error pages. If your app raises an exception when DEBUG is on, will display a detailed traceback, including a lot of metadata about the environment, such as all the currently defined Django settings (from base.py). Never deploy a site into production with DEBUG turned on. Default: 'on'
+- ``` DJANGO_SETTINGS_MODULE```: The Django settings module to use. Default: 'project_framework.settings.development'
+- ``` SECRET_KEY```: The secret key to use for cryptographic operations should be set to a unique, unpredictable value. Never deploy a site into production with the default secret key. Default: Random string'
+- ``` DATABASE_URL```: The URL of the database to use. You can choose from a variety of database engines. Default: 'psql://DockerizedDjangoUser:DockerizedDjangoPassword@postgres:5432/DockerizedDjango'
+- ``` ALLOWED_HOSTS```: The comma seperated hostnames that Django will use to access the site. Default: '127.0.0.1,localhost,127.0.0.1:8000,localhost:8000'
+- ``` TIME_ZONE```: The timezone to use for the site. Default: 'UTC'
+- ``` ENABLE_LOGGING```: If on, will enable exception logging in rotated file handler. Default: 'on'
+- ``` ENABLE_AUTO_LOGGING```: If on, will enable auto exception logging in rotated file handler. Default: 'on'
+- ``` LOGGING_DIR```: The directory to use for exception logging. Default: 'logs'
 
 
 ### Terminology
