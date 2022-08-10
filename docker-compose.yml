@@ -41,29 +41,13 @@ services:
             - postgres
         volumes:
             - ./django:/app
+            - static-files:/app/static
         ports:
             - 8000:8000
         env_file:
             - ./env/.env
         networks:
             - dockerized_django_net
-        restart: always
-    
-    # nginx
-    nginx:
-        container_name: nginx
-        build: 
-            context: ./nginx/
-        depends_on:
-            - django
-        networks:
-            - dockerized_django_net
-        ports:
-            - "80:80"
-        volumes:
-            - ./django/static:/www/static
-        links:
-            - django:django
         restart: always
 
 volumes:

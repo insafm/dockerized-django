@@ -29,40 +29,40 @@ ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
+	'django.contrib.admin',
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'project_framework.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(PROJECT_DIR, 'templates/')],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [os.path.join(PROJECT_DIR, 'templates/')],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+			],
+		},
+	},
 ]
 
 WSGI_APPLICATION = 'project_framework.wsgi.application'
@@ -70,25 +70,25 @@ WSGI_APPLICATION = 'project_framework.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASES = {
-    'default': env.db(),
+	'default': env.db(),
 }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+	{
+		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+	},
+	{
+		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+	},
 ]
 
 
@@ -124,55 +124,68 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ENABLE_LOGGING = env.bool('ENABLE_LOGGING', default=True)
 if ENABLE_LOGGING:
-    
-    LOGGING_DIR = os.path.join(BASE_DIR, env.str('LOGGING_DIR', default='logs'))
-    if not os.path.exists(LOGGING_DIR):
-        os.makedirs(LOGGING_DIR)
+	
+	LOGGING_DIR = os.path.join(BASE_DIR, env.str('LOGGING_DIR', default='logs'))
+	if not os.path.exists(LOGGING_DIR):
+		os.makedirs(LOGGING_DIR)
 
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'formatters': {
-            'standard': {
-                'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
-                'datefmt': "%d/%b/%Y %H:%M:%S"
-            },
-        },
-        'handlers': {
-            'logfile': {
-                'level': 'DEBUG',
-                'class': 'logging.handlers.TimedRotatingFileHandler',
-                'filename': os.path.join(LOGGING_DIR, 'django.log'),
-                'when': 'D',  # this specifies the interval
-                'interval': 1,  # defaults to 1, only necessary for other values
-                'backupCount': 30,  # how many backup file to keep, 30 days
-                'formatter': 'standard',
-            },
-            'console': {
-                'level': 'INFO',
-                'class': 'logging.StreamHandler',
-                'formatter': 'standard'
-            },
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['console'],
-                'propagate': True,
-                'level': 'WARN',
-            },
-            'django.db.backends': {
-                'handlers': ['console'],
-                'level': 'DEBUG',
-                'propagate': False,
-            },
-            APPLICATION_NAME: {
-                'handlers': ['console', 'logfile'],
-                'level': 'DEBUG',
-            },
-        }
-    }
+	LOGGING = {
+		'version': 1,
+		'disable_existing_loggers': False,
+		'formatters': {
+			'standard': {
+				'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+				'datefmt': "%d/%b/%Y %H:%M:%S"
+			},
+		},
+		'handlers': {
+			'logfile': {
+				'level': 'DEBUG',
+				'class': 'logging.handlers.TimedRotatingFileHandler',
+				'filename': os.path.join(LOGGING_DIR, 'django.log'),
+				'when': 'D',  # this specifies the interval
+				'interval': 1,  # defaults to 1, only necessary for other values
+				'backupCount': 30,  # how many backup file to keep, 30 days
+				'formatter': 'standard',
+			},
+			'console': {
+				'level': 'INFO',
+				'class': 'logging.StreamHandler',
+				'formatter': 'standard'
+			},
+		},
+		'loggers': {
+			'django': {
+				'handlers': ['console'],
+				'propagate': True,
+				'level': 'WARN',
+			},
+			'django.db.backends': {
+				'handlers': ['console'],
+				'level': 'DEBUG',
+				'propagate': False,
+			},
+			APPLICATION_NAME: {
+				'handlers': ['console', 'logfile'],
+				'level': 'DEBUG',
+			},
+		}
+	}
 
-    # Enable automatic logging of Django exceptions
-    ENABLE_AUTO_LOGGING = env.bool('ENABLE_AUTO_LOGGING', default=True)
-    if ENABLE_AUTO_LOGGING:
-        MIDDLEWARE += ['project_framework.core.middleware.auto_logging_middleware.ExceptionAutoLoggingMiddleware']
+	# Enable automatic logging of Django exceptions
+	ENABLE_AUTO_LOGGING = env.bool('ENABLE_AUTO_LOGGING', default=True)
+	if ENABLE_AUTO_LOGGING:
+		MIDDLEWARE += ['project_framework.core.middleware.auto_logging_middleware.ExceptionAutoLoggingMiddleware']
+
+# Enable Django Debug Toolbar
+ENABLE_DEBUG_TOOLBAR = env.bool('ENABLE_DEBUG_TOOLBAR', default=False)
+
+if ENABLE_DEBUG_TOOLBAR:
+	INSTALLED_APPS += [
+		'debug_toolbar',
+	]
+	MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
+
+	DEBUG_TOOLBAR_CONFIG = {
+		"SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
+	}
