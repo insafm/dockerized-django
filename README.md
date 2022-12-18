@@ -53,9 +53,9 @@
 - ``` docker network create supernet ``` - Create network 'supernet' if it doesn't exists.
 - ``` docker system prune -af ``` - Remove all stopped containers, networks, volumes, and images.
 - ``` sudo docker network create supernet ``` - Create the network manually.
-- ``` sudo docker-compose --project-name=Saqafi -f docker-compose.yml up --build -d ``` - Run the project environment.
-- ``` sudo docker logs -f --tail 100 saqafi_django_1 ``` - Display django consol logs.
-- ``` sudo docker exec -it saqafi_django_1 sh ``` - Access django shell.
+- ``` sudo docker-compose --project-name=DockerizedDjango -f docker-compose.yml up --build -d ``` - Run the project environment.
+- ``` sudo docker logs -f --tail 100 dockerized_django_1 ``` - Display django consol logs.
+- ``` sudo docker exec -it dockerized_django_1 sh ``` - Access django shell.
 
 ### Backup & Restore Database
 ----
