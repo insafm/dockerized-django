@@ -37,6 +37,15 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 ]
 
+# Custom based django apps definition with urls.py base url.
+CUSTOM_APPS = {
+	# 'employee': 'employee',
+}
+
+# Appeding custom apps to Django installed apps.
+INSTALLED_APPS += CUSTOM_APPS.keys()
+
+
 MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
@@ -108,7 +117,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_DIR, 'static'),
+)
 
 # Media files (images, videos, etc.)
 MEDIA_URL = '/media/'

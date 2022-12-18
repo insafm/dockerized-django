@@ -39,3 +39,10 @@ if settings.DEBUG:
         urlpatterns += [
             path('__debug__/', include('debug_toolbar.urls')),
         ]
+
+# Custom apps urls.
+if settings.CUSTOM_APPS:
+    for app, base_url in settings.CUSTOM_APPS.items():
+        urlpatterns += [
+            path(base_url + '/', include(app + '.urls')),
+        ]

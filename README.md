@@ -39,19 +39,23 @@
 ### Run Docker Compose To Run The Application
 ----
 
-- ``` docker-compose -f docker-compose.yml up ``` - Run the project environment.
-- ``` docker-compose -f docker-compose.yml up --build -d ``` - Build the project environment and run it.
-- ``` docker-compose -f docker-compose.yml -f docker-compose.production.yml up``` - Run the production environment.
-- ``` docker-compose -f docker-compose.yml -f docker-compose.production.yml up --build -d ``` - Build the production environment and run it.
+- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml up ``` - Run the project environment.
+- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml up --build -d ``` - Build the project environment and run it.
+- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml -f docker-compose.production.yml up``` - Run the production environment.
+- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml -f docker-compose.production.yml up --build -d ``` - Build the production environment and run it.
 
 ### Other Common Docker Commands
 ----
 
-- ``` docker-compose down ``` - Stop all containers.
-- ``` docker-compose -f docker-compose.yml down ``` - Stop all containers in the compose file.
-- ``` docker-compose down --remove-orphans ``` - Stop all containers and delete all volumes associated with them.
+- ``` docker-compose --project-name=DockerizedDjango down ``` - Stop all containers.
+- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml down ``` - Stop all containers in the compose file.
+- ``` docker-compose --project-name=DockerizedDjango down --remove-orphans ``` - Stop all containers and delete all volumes associated with them.
 - ``` docker network create supernet ``` - Create network 'supernet' if it doesn't exists.
 - ``` docker system prune -af ``` - Remove all stopped containers, networks, volumes, and images.
+- ``` sudo docker network create supernet ``` - Create the network manually.
+- ``` sudo docker-compose --project-name=Saqafi -f docker-compose.yml up --build -d ``` - Run the project environment.
+- ``` sudo docker logs -f --tail 100 saqafi_django_1 ``` - Display django consol logs.
+- ``` sudo docker exec -it saqafi_django_1 sh ``` - Access django shell.
 
 ### Backup & Restore Database
 ----
