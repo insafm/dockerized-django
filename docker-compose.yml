@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
     # Data base service configuration - PostgreSQL
-    db:
+    postgres:
         image: 'postgres:latest'
         ports:
             - 5432:5432
@@ -11,7 +11,7 @@ services:
         networks:
             - dockerized_django_net
         volumes:
-            - dbdata:/var/lib/postgresql/data/
+            - postgresdata:/var/lib/postgresql/data/
         restart: on-failure
     
     # Database management tool - Adminer
@@ -20,7 +20,7 @@ services:
         environment:
             - ADMINER_DESIGN=pappu687
         depends_on:
-            - db
+            - postgres
         networks:
             - dockerized_django_net
         volumes:
@@ -35,7 +35,7 @@ services:
             context: ./django/
             dockerfile: Dockerfile
         depends_on:
-            - db
+            - postgres
         volumes:
             - ./django:/app
             - static-files:/app/static
@@ -50,8 +50,8 @@ services:
 volumes:
     static-files:
         name: dockerized_django_volume
-    dbdata:
-        name: dockerized_django_db_volume
+    postgresdata:
+        name: dockerized_django_postgres_volume
     adminer:
         name: adminer_volume
 
