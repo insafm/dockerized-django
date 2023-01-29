@@ -49,7 +49,7 @@
 
 - ``` docker-compose --project-name=DockerizedDjango down ``` - Stop all containers.
 - ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml down ``` - Stop all containers in the compose file.
-- ``` docker-compose --project-name=DockerizedDjango down --remove-orphans ``` - Stop all containers and delete all volumes associated with them.
+- ``` docker-compose --project-name=DockerizedDjango down --remove-orphans ``` - Stop all containers and delete orphaned containers associated with them.
 - ``` docker network create supernet ``` - Create network 'supernet' if it doesn't exists.
 - ``` docker system prune -af ``` - Remove all stopped containers, networks, volumes, and images.
 - ``` sudo docker network create supernet ``` - Create the network manually.
