@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants as message_constants
 from .env import env
 
 # Set project directory and base directory.
@@ -26,8 +27,7 @@ DEBUG = env('DEBUG', default=False)
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
 
-# Application definition
-
+# Application definitions
 INSTALLED_APPS = [
 	'django.contrib.admin',
 	'django.contrib.auth',
@@ -39,12 +39,11 @@ INSTALLED_APPS = [
 
 # Custom based django apps definition with urls.py base url.
 CUSTOM_APPS = {
-	# 'employee': 'employee',
+	'core': 'core',
 }
 
 # Appeding custom apps to Django installed apps.
 INSTALLED_APPS += CUSTOM_APPS.keys()
-
 
 MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
@@ -137,7 +136,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ENABLE_LOGGING = env.bool('ENABLE_LOGGING', default=True)
 if ENABLE_LOGGING:
-	
+	# Get logging directory from env file, or set default 'logs'.
 	LOGGING_DIR = os.path.join(BASE_DIR, env.str('LOGGING_DIR', default='logs'))
 	if not os.path.exists(LOGGING_DIR):
 		os.makedirs(LOGGING_DIR)
@@ -192,13 +191,21 @@ if ENABLE_LOGGING:
 
 # Enable Django Debug Toolbar
 ENABLE_DEBUG_TOOLBAR = env.bool('ENABLE_DEBUG_TOOLBAR', default=False)
-
 if ENABLE_DEBUG_TOOLBAR:
 	INSTALLED_APPS += [
 		'debug_toolbar',
 	]
 	MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware', ]
-
 	DEBUG_TOOLBAR_CONFIG = {
 		"SHOW_TOOLBAR_CALLBACK": lambda request: DEBUG,
 	}
+
+# This sets the mapping of message level to message tag,
+# which is typically rendered as a CSS class in HTML. 
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'debug',
+    message_constants.INFO: 'info',
+    message_constants.SUCCESS: 'success',
+    message_constants.WARNING: 'warning',
+    message_constants.ERROR: 'danger',
+}

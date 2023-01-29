@@ -15,25 +15,22 @@ ENV PYTHONUNBUFFERED=1
 # Set the working directory
 WORKDIR /app
 
-# Copy requirements.txt to the container
-COPY requirements.txt /app/
+# Install the system packages required by the Django and PostgreSQL.
+RUN apt-get update --yes --quiet && \
+    apt-get install --yes --quiet --no-install-recommends gcc libpq-dev python3-dev && \
+    rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip
 
-# Install the system packages required by the Django and PostgreSQL.
-RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
-    gcc libpq-dev python3-dev \
-&& rm -rf /var/lib/apt/lists/*
+# Copy requirements.txt to the container
+COPY requirements.txt /app/
 
 # Install the requirements
 RUN pip install -r requirements.txt
 
 # Copy the Django application to the container
 COPY . /app/
-
-# Expose the Django application to serve HTTP requests.
-EXPOSE 8000
 
 # Change sorce code ownership to the non-root user.
 RUN chown -R dockerizeddjangouser:dockerizeddjangouser /app
@@ -43,6 +40,9 @@ USER dockerizeddjangouser
 
 # Copy entrypoint.sh to the container and execute it.
 COPY ./entrypoint.sh /
+
+# Expose the Django application to serve HTTP requests.
+EXPOSE 8000
 
 # Run the Django application.
 ENTRYPOINT ["sh", "/entrypoint.sh"]
