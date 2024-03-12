@@ -1,5 +1,24 @@
-Django>=3.0,<4.0
-psycopg2>=2.8
+# Django
+Django==4.2
 django-environ
 gunicorn
 django-debug-toolbar
+
+# PostgreSQL
+psycopg2
+
+# MySQL
+# TODO: Better to create seperate files for diffrent database.
+mysqlclient
+
+# Celery
+celery
+redis
+django-celery-beat
+
+# DRF
+djangorestframework
+django-filter
+drf-writable-nested
+djangorestframework_simplejwt
+django-cors-headers

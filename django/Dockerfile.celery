@@ -1,5 +1,6 @@
 # Official python runtime based on Debian - https://hub.docker.com/_/python
 FROM python:3.10.5-slim-buster
+# FROM python:3.11
 
 # Create the non-root user. This user will be used to run the Django
 # application. Doing this before any COPY means it won't
@@ -12,18 +13,17 @@ RUN useradd -M -s /bin/bash dockerizeddjangouser
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set the working directory
-WORKDIR /app
-
 # Upgrade pip to the latest version
 RUN pip install --upgrade pip
 
 # Install the system packages required by the Django and PostgreSQL.
+RUN apt-get update --yes --quiet
 # TODO: Based on database choose, select package: libpq-dev / default-libmysqlclient-dev
-RUN apt-get update --yes --quiet && \
-    apt-get install --yes --quiet --no-install-recommends apt-utils gcc python3-dev libpq-dev default-libmysqlclient-dev git pkg-config
+RUN apt-get install --yes --quiet --no-install-recommends gcc python3-dev libpq-dev default-libmysqlclient-dev git wget tar unzip gnupg curl pkg-config
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+WORKDIR /app
+
+RUN rm -rf /var/lib/apt/lists/*
 
 # Copy requirements.txt to the container
 COPY requirements.txt /app/
@@ -41,10 +41,7 @@ RUN chown -R dockerizeddjangouser:dockerizeddjangouser /app
 USER dockerizeddjangouser
 
 # Copy entrypoint.sh to the container and execute it.
-COPY ./entrypoint.sh /
-
-# Expose the Django application to serve HTTP requests.
-EXPOSE 8000
+COPY ./entrypoint.celery.sh /
 
 # Run the Django application.
-ENTRYPOINT ["sh", "/entrypoint.sh"]
+ENTRYPOINT ["sh", "/entrypoint.celery.sh"]

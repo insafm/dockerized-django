@@ -12,7 +12,23 @@ services:
             - dockerized_django_net
         volumes:
             - postgresdata:/var/lib/postgresql/data/
-        restart: on-failure
+        restart: unless-stopped
+    
+    # TODO: Check database, if it is mysql enable it.
+    # NOTE: Please remove the mysql part if you are not using mysql database.
+    # Data base service configuration - MySQL
+    mysql:
+        image: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        env_file:
+            - ./env/.mysql_env
+        networks:
+            - dockerized_django_net
+        volumes:
+            - mysqldata:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        restart: unless-stopped
     
     # Database management tool - Adminer
     adminer:
@@ -36,6 +52,8 @@ services:
             dockerfile: Dockerfile
         depends_on:
             - postgres
+            - rabbitmq
+            - redis
         volumes:
             - ./django:/app
             - static-files:/app/static
@@ -46,12 +64,54 @@ services:
         networks:
             - dockerized_django_net
         restart: always
+    
+    # TODO: Check celery enabled.
+    # NOTE: Please remove celery part if you are not using celery in your project.
+    # Celery - Cron job
+    celery:
+        build:
+            context: ./django/
+            dockerfile: Dockerfile.celery
+        volumes:
+            - ./django:/app
+        env_file:
+            - ./env/.env
+        depends_on:
+            - django
+            - rabbitmq
+            - redis
+        restart: always
+        networks:
+            - dockerized_django_net
+    
+    # RabbitMQ - message broker software
+    rabbitmq:
+        image: rabbitmq:alpine
+        env_file:
+            - ./env/.rabbitmq_env
+        ports:
+            - "5672:5672"
+        restart: on-failure
+        networks:
+            - dockerized_django_net
+
+    # Redis - key-value data store with optional durability
+    redis:
+        image: redis:alpine
+        command: redis-server
+        ports:
+            - "6379:6379"
+        restart: on-failure
+        networks:
+            - dockerized_django_net
 
 volumes:
     static-files:
         name: dockerized_django_volume
     postgresdata:
         name: dockerized_django_postgres_volume
+    mysqldata:
+        name: ins_flix_mysql_volume
     adminer:
         name: adminer_volume
 

@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-import traceback
+import os
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
@@ -42,13 +42,26 @@ if settings.DEBUG:
             path('__debug__/', include('debug_toolbar.urls')),
         ]
 
+# API URLs.
+if settings.ENABLE_DRF:
+    urlpatterns.append(
+        path('users/', include('users.api_urls')),
+    )
+
 # Custom apps urls.
 if settings.CUSTOM_APPS:
     for app, base_url in settings.CUSTOM_APPS.items():
-        try:
+        app_path = os.path.join(settings.BASE_DIR, app)
+        urls_path = os.path.join(app_path, 'urls.py')
+        if os.path.exists(urls_path):
             urlpatterns.append(
                 path(base_url + '/', include(app + '.urls')),
             )
-        except Exception as e:
-            print(f"{app} urls module not found.")
-            traceback.print_exc()
+        
+        # API URLs.
+        if settings.ENABLE_DRF:
+            api_urls_path = os.path.join(app_path, 'api_urls.py')
+            if os.path.exists(api_urls_path):
+                urlpatterns.append(
+                    path(base_url + '/api/', include(app + '.api_urls')),
+                )

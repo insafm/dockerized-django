@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from django.contrib.messages import constants as message_constants
 from .env import env
 
@@ -19,6 +20,7 @@ PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
 APPLICATION_NAME = env.str("APPLICATION_NAME", default="Dockerized Django")
+APPLICATION_ID = env.str("APPLICATION_ID", default="dockerizeddjango")
 
 SECRET_KEY = env('SECRET_KEY')
 
@@ -45,6 +47,69 @@ CUSTOM_APPS = {
 # Appeding custom apps to Django installed apps.
 INSTALLED_APPS += CUSTOM_APPS.keys()
 
+# Enable Django REST framework - https://www.django-rest-framework.org
+ENABLE_DRF = env.bool("ENABLE_DRF", default=False)
+if ENABLE_DRF:
+	INSTALLED_APPS += [
+		'corsheaders',
+		'rest_framework',
+		'api_core',
+	]
+
+	REST_FRAMEWORK = {
+		'DEFAULT_AUTHENTICATION_CLASSES': [
+			'rest_framework_simplejwt.authentication.JWTAuthentication',
+		],
+		'DEFAULT_RENDERER_CLASSES': [
+			'api_core.renderers.WrappedJSONRenderer',
+		],
+		'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    	'PAGE_SIZE': 10,
+	    'DATETIME_FORMAT': '%Y-%m-%d %I:%M %p',
+		'DATE_FORMAT': '%Y-%m-%d',
+		'TIME_FORMAT': '%I:%M %p',
+	}
+
+	SIMPLE_JWT = {
+		"ACCESS_TOKEN_LIFETIME": timedelta(days=1),
+		"REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+		"ROTATE_REFRESH_TOKENS": False,
+		"BLACKLIST_AFTER_ROTATION": False,
+		"UPDATE_LAST_LOGIN": False,
+
+		"ALGORITHM": "HS256",
+		"SIGNING_KEY": SECRET_KEY,
+		"VERIFYING_KEY": "",
+		"AUDIENCE": None,
+		"ISSUER": None,
+		"JSON_ENCODER": None,
+		"JWK_URL": None,
+		"LEEWAY": 0,
+
+		"AUTH_HEADER_TYPES": ("Bearer",),
+		"AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
+		"USER_ID_FIELD": "id",
+		"USER_ID_CLAIM": "user_id",
+		"USER_AUTHENTICATION_RULE": "rest_framework_simplejwt.authentication.default_user_authentication_rule",
+
+		"AUTH_TOKEN_CLASSES": ("rest_framework_simplejwt.tokens.AccessToken",),
+		"TOKEN_TYPE_CLAIM": "token_type",
+		"TOKEN_USER_CLASS": "rest_framework_simplejwt.models.TokenUser",
+
+		"JTI_CLAIM": "jti",
+
+		"SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+		"SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+		"SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+
+		"TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
+		"TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
+		"TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
+		"TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
+		"SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
+		"SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+	}
+
 MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,6 +119,12 @@ MIDDLEWARE = [
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+if "corsheaders" in INSTALLED_APPS:
+	MIDDLEWARE.append('corsheaders.middleware.CorsMiddleware')
+	
+	CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=['*'])
+
 
 ROOT_URLCONF = 'project_framework.urls'
 
@@ -209,3 +280,26 @@ MESSAGE_TAGS = {
     message_constants.WARNING: 'warning',
     message_constants.ERROR: 'danger',
 }
+
+ENABLE_CELERY = env.bool('ENABLE_CELERY', default=False)
+if ENABLE_CELERY:
+	CELERY_BROKER_URL = env.str('CELERY_BROKER_URL', default='amqp://guest:guest@localhost:5672//')
+	CELERY_RESULT_BACKEND = env.str('CELERY_RESULT_BACKEND', default='redis://localhost/0')
+	INSTALLED_APPS += [
+		'django_celery_beat'
+	]
+	CELERY_TIMEZONE = TIME_ZONE
+	CELERY_ACCEPT_CONTENT = ['json']
+	CELERY_TASK_SERIALIZER = 'json'
+	CELERY_RESULT_SERIALIZER = 'json'
+	CELERY_IGNORE_RESULT = False # this is less important
+	CELERY_DEFAULT_DELIVERY_MODE = "persistent"
+	CELERY_RESULT_EXPIRES = 1800
+
+# Custom project additions.
+if APPLICATION_ID == "dockerizeddjango":
+	from .project.dockerizeddjango import *
+	CUSTOM_APPS.update(DOCKERIZEDDJANGO_CUSTOM_APPS)
+	INSTALLED_APPS += DOCKERIZEDDJANGO_INSTALLED_APPS
+	INSTALLED_APPS += DOCKERIZEDDJANGO_CUSTOM_APPS.keys()
+

@@ -1,0 +1,4 @@
+MYSQL_DATABASE=DockerizedDjango
+MYSQL_USER=DockerizedDjangoUser
+MYSQL_PASSWORD=DockerizedDjangoPassword
+MYSQL_ROOT_PASSWORD=DockerizedDjangoRootPassword

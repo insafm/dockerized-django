@@ -39,23 +39,20 @@
 ### Run Docker Compose To Run The Application
 ----
 
-- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml up ``` - Run the project environment.
-- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml up --build -d ``` - Build the project environment and run it.
-- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml -f docker-compose.production.yml up``` - Run the production environment.
-- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml -f docker-compose.production.yml up --build -d ``` - Build the production environment and run it.
+- ``` docker-compose --project-name=dockerizeddjango -f docker-compose.yml up ``` - Run the project environment.
+- ``` docker-compose --project-name=dockerizeddjango -f docker-compose.yml up --build -d ``` - Build the project environment and run it.
+- ``` docker-compose --project-name=dockerizeddjango -f docker-compose.yml -f docker-compose.production.yml up``` - Run the production environment.
+- ``` docker-compose --project-name=dockerizeddjango -f docker-compose.yml -f docker-compose.production.yml up --build -d ``` - Build the production environment and run it.
 
-### Other Common Docker Commands
+### Dockerized Django Docker Commands
 ----
 
-- ``` docker-compose --project-name=DockerizedDjango down ``` - Stop all containers.
-- ``` docker-compose --project-name=DockerizedDjango -f docker-compose.yml down ``` - Stop all containers in the compose file.
-- ``` docker-compose --project-name=DockerizedDjango down --remove-orphans ``` - Stop all containers and delete orphaned containers associated with them.
+- ``` docker-compose --project-name=dockerizeddjango -f docker-compose.yml down --remove-orphans``` - Stop all containers in the compose file and delete orphaned containers associated with them.
 - ``` docker network create supernet ``` - Create network 'supernet' if it doesn't exists.
 - ``` docker system prune -af ``` - Remove all stopped containers, networks, volumes, and images.
-- ``` sudo docker network create supernet ``` - Create the network manually.
-- ``` sudo docker-compose --project-name=DockerizedDjango -f docker-compose.yml up --build -d ``` - Run the project environment.
-- ``` sudo docker logs -f --tail 100 dockerized_django_1 ``` - Display django consol logs.
-- ``` sudo docker exec -it dockerized_django_1 sh ``` - Access django shell.
+- ``` docker network create supernet ``` - Create the network manually.
+- ``` docker logs -f --tail 100 dockerizeddjango-django-1 ``` - Display django consol logs.
+- ``` docker exec -it dockerizeddjango-django-1 sh ``` - Access django shell.
 
 ### Backup & Restore Database
 ----
@@ -68,7 +65,7 @@
 0. SMTP Configuration: SMTP configuration for sending emails.
 1. Exception Logging: Exception logging using sentry.
 2. Shell: Docker commands with interactive shell.
-3. Celery: Celery integration.
+3. Initial code build using script.
 
 ### Blog Post
 ----
