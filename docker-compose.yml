@@ -117,5 +117,5 @@ volumes:
 
 networks:
     dockerized_django_net:
-        external:
-            name: supernet
+        name: supernet
+        external: True
